@@ -28,6 +28,8 @@ To download the dependencies you need to move to the root directory of the proje
 
 ### Running the tests
 
+Before you run the test for the first time you must register in [Vaadin](https://vaadin.com/) website, click on your profile (top right button), then on "My Services" and then on "Licenses". Once you are there Click on the key button next to "Vaadin TestBench" section amd follow the given instructions. 
+
 To run the tests you just need to be in the root directory of the project (where pom.xml is located) and launch "mvn -Dtest=loginIT test"
 
 ### Test explanation
