@@ -3,6 +3,7 @@ import com.vaadin.testbench.ScreenshotOnFailureRule;
 import com.vaadin.testbench.TestBenchTestCase;
 import org.apache.log4j.BasicConfigurator;
 import org.junit.*;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.chrome.ChromeDriver;
 import pageobjects.loginElement;
 import org.apache.log4j.Logger;
@@ -12,7 +13,7 @@ public class loginIT extends TestBenchTestCase {
     private final static Logger logger = Logger.getLogger(loginIT.class);
     private final String URL = "https://community.iriusrisk.com/#!login/";
     private final String USERNAME = "javierpulidovergara@gmail.com";
-    private final String PASSWORD = "Testvaadin1234";
+    private final String PASSWORD = "Testvaadin123";
 
     @Before
     public void setUp(){
@@ -40,26 +41,35 @@ public class loginIT extends TestBenchTestCase {
     public void doLogIn(){
         logger.info("doLogin method started");
 
-        //We initialize the div that holds the log in form
-        loginElement loginView = $(loginElement.class).first();
+        try{
 
-        logger.info("Trying to log in");
-        loginView.login(USERNAME, PASSWORD);
+            //We initialize the div that holds the log in form
+            loginElement loginView = $(loginElement.class).first();
 
-        try
-        {
-            //We make sure the log in has been successful by checking if an element of the next screen is displayed
-            Assert.assertTrue($("div").id("PRODUCTS_TAB_NEW_PRODUCT_BUTTON").isDisplayed());
-            logger.info("Log in performed succesfully");
+            logger.info("Trying to log in");
+            loginView.login(USERNAME, PASSWORD);
+
+            try
+            {
+                //We make sure the log in has been successful by checking if an element of the next screen is displayed
+                Assert.assertTrue($("div").id("PRODUCTS_TAB_NEW_PRODUCT_BUTTON").isDisplayed());
+                logger.info("Log in performed succesfully");
 
 
-        }catch(AssertionError e){
+            }catch(AssertionError e){
 
-            logger.error("An error ocurred while trying to log into the application \n", e);
+                logger.error("An error ocurred while trying to log into the application \n", e);
+
+            }
+
+        }catch(NoSuchElementException e){
+
+            logger.error("An error ocurred trying to locate any of the provided elements", e);
 
         }
 
         logger.info("doLogin method ended");
+
     }
 
     //If there has been any problem executing the test a screenshot will be taken
